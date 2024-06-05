@@ -1,6 +1,7 @@
 package com.demo.Controller;
 
 
+import com.demo.Service.UserService;
 import com.demo.entity.User;
 import com.demo.repo.UserRepository;
 
@@ -16,33 +17,33 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
+        Optional<User> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     @GetMapping("/{email")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userService.findByEmail(email);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+        return userService.createUser(user);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-    	userRepository.deleteById(id);
+    	userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 }
