@@ -18,7 +18,7 @@ public class UserController {
     private UserService userService;
     
     @Autowired
-    public UserController(UserService userService) {
+    public UserController() {
         this.userService = userService;
     }
 
@@ -38,6 +38,16 @@ public class UserController {
         return userService.createUser(user);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        Optional<User> existingUser = userService.getUserById(id);
+        if (existingUser.isPresent()) {
+            User updatedUser = userService.updateUser(id, user);
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
