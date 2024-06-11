@@ -84,7 +84,7 @@ public class UserIntegrationtest {
         List<User> getAllUsers = restTemplate.getForObject(baseUrl, List.class);
         assertNotNull(savedUser);
         assertThat(savedUser.getId()).isNotNull();
-        assertThat(getAllUsers.size()).isEqualTo(3);
+        assertThat(getAllUsers.size()).isEqualTo(5);
     }
 
     @Test

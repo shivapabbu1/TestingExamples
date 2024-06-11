@@ -1,3 +1,4 @@
+
 package com.demo.integrationtest;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -93,5 +94,11 @@ public class UserUnitTest_MockMvc {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value("John Doe"))
                 .andExpect(jsonPath("$.email").value("john.doe@example.com"));
+        
+
+        mockMvc.perform(get("/users/{id}", 2L)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+        
     }
 }
